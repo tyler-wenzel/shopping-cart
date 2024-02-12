@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 // import ReactDOM from "react-dom/client";
-import addProductToDatabase from "../services/products";
+import {addProductToDatabase} from "../services/products";
 
 const AddFormContainer = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -9,9 +9,6 @@ const AddFormContainer = () => {
     setIsFormVisible(!isFormVisible);
   };
   const handleSubmit = async (formData) => {
-    // This should be name handleSubmit as it is more descriptive. handleClick is very general
-    // event.preventDefault();
-    console.log(formData.title, formData.price, formData.quantity);
     await handleFormSubmission(
       formData.title,
       formData.price,
@@ -21,10 +18,12 @@ const AddFormContainer = () => {
 
   const handleFormSubmission = async (title, price, quantity) => {
     try {
-      let result = await addProductToDatabase(title, price, quantity);
+      await addProductToDatabase(title, price, quantity);
     } catch (err) {
       console.log(err);
     }
+
+    setIsFormVisible(false)
   };
 
   return (
@@ -39,6 +38,8 @@ const AddFormContainer = () => {
   );
 };
 
+// _______________________________________________________________________________________
+
 const AddForm = ({ onToggleForm, onSubmit }) => {
   const [formData, setFormData] = useState({
     title: "",
@@ -46,7 +47,7 @@ const AddForm = ({ onToggleForm, onSubmit }) => {
     quantity: "",
   });
 
-  const handleSubmit = (e) => {
+    const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(formData);
   };
@@ -98,7 +99,7 @@ const AddForm = ({ onToggleForm, onSubmit }) => {
           />
         </div>
         <div className="actions form-actions">
-          <button type="submit" onClick={handleSubmit}>
+          <button type="submit" onSubmit={handleSubmit}>
             Add
           </button>
           <button type="button" onClick={onToggleForm}>
