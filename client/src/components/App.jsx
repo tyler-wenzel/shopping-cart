@@ -8,7 +8,7 @@ function App() {
   return (
     <div id="app">
       <Header />
-      <Main items={mockData} />
+      <Main />
     </div>
   )
 }
